@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>💶 Finansal Rapor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>💶 Finansal Gelir Raporu</h1>
+  <table border="1" cellpadding="10">
+    <tr><th>Grup Adı</th><th>Toplam Gelir (€)</th></tr>
+    {% for gname, income in report %}
+      <tr>
+        <td>{{ gname }}</td>
+        <td>{{ income }}</td>
+      </tr>
+    {% endfor %}
+    <tr style="font-weight: bold;">
+      <td>TOPLAM</td>
+      <td>{{ total }}</td>
+    </tr>
+  </table>
+  <br><a href="/">⬅️ Ana Sayfa</a>
+</body>
+</html>

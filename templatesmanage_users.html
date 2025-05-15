@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kullanıcı Yönetimi</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>👥 Yeni Kullanıcı Ekle</h1>
+  <form method="POST" action="/add_user">
+    <input name="username" placeholder="Kullanıcı adı" required><br>
+    <input name="password" type="password" placeholder="Şifre" required><br>
+    <select name="role">
+      <option value="admin">Admin</option>
+      <option value="receptionist">Resepsiyonist</option>
+    </select><br>
+    <button>Kullanıcı Ekle</button>
+  </form>
+  <a href="/">⬅️ Ana Sayfa</a>
+</body>
+</html>

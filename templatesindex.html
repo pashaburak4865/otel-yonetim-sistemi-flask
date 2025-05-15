@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Otel Yönetimi</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <p>👤 Giriş yapan: {{ session['username'] }} ({{ session['role'] }}) | <a href="/logout">Çıkış Yap</a></p>
+
+  <h1>🏨 Grup Oluştur</h1>
+  <form method="POST" action="/create_group">
+    <input name="group_name" placeholder="Grup Adı" required>
+    <input name="check_in" type="datetime-local" required>
+    <input name="check_out" type="datetime-local" required>
+    <button>➕ Grup Ekle</button>
+  </form>
+
+  <h2>📥 Excel'den Misafir Ekle</h2>
+  <form method="POST" action="/upload_guests" enctype="multipart/form-data">
+    <label>Grup Seç:</label>
+    <select name="group_id">
+      {% for group in groups %}
+        <option value="{{ group[0] }}">{{ group[1] }} ({{ group[2] }} - {{ group[3] }})</option>
+      {% endfor %}
+    </select><br><br>
+    <input type="file" name="file" accept=".xlsx" required>
+    <button>⬆️ Misafirleri Yükle</button>
+  </form>
+
+  <h2>🛏️ Oda Atama</h2>
+  <form action="/assign_room" method="POST">
+    <label>Misafir Seç:</label>
+    <select name="guest_id">
+      {% for group in groups %}
+        {% for guest in guests[group[0]] %}
+          <option value="{{ guest[1] }}">{{ guest[0] }} ({{ group[1] }})</option>
+        {% endfor %}
+      {% endfor %}
+    </select><br><br>
+    <label>Oda No:</label>
+    <input name="room_no" required><br>
+    <label>Oda Tipi:</label>
+    <select name="room_type">
+      <option value="SINGLE">SINGLE</option>
+      <option value="DOUBLE">DOUBLE</option>
+      <option value="TRIPLE">TRIPLE</option>
+    </select><br>
+    <button type="submit">➕ Odayı Ata</button>
+  </form>
+
+  {% if session['role'] == 'admin' %}
+    <a href="/financial_report">💶 Finansal Gelir Raporunu Görüntüle</a> |
+    <a href="/manage_users">👥 Kullanıcı Yönetimi</a>
+  {% endif %}
+</body>
+</html>
